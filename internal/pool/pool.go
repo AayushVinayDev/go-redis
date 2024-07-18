@@ -221,6 +221,10 @@ func (p *ConnPool) dialConn(ctx context.Context, pooled bool) (*Conn, error) {
 
 	cn := NewConn(netConn)
 	cn.pooled = pooled
+
+	// Reset the dialErrorsNum counter when a connection is successfully established.
+	atomic.StoreUint32(&p.dialErrorsNum, 0)
+
 	return cn, nil
 }
 
